@@ -3,6 +3,8 @@
 #include <random>
 using namespace std;
 
+#define KAZUATE_DEBUG_ON
+
 void InitKazuateRandomNum()
 {
 	srand((unsigned int)time(NULL));
@@ -16,7 +18,7 @@ int KazuateRandomNum()
 void kazuate()
 {
 	InitKazuateRandomNum();
-	int randomeNum;
+	int randomNum;
 	int inputNum;
 	int num;
 	bool key = true;
@@ -24,12 +26,19 @@ void kazuate()
 
 	cout << "数当てゲーム 1～100の数を当ててください" << endl;
 
-	randomeNum = KazuateRandomNum();
+	randomNum = KazuateRandomNum();
 
 	while (key && countdown > 0)
 	{
 
 		cout << "数を入力してください" << endl;
+
+#ifdef KAZUATE_DEBUG_ON
+
+		cout << "親の手は " << randomNum << endl;
+
+#endif // KAZUATE_DEBUG_ON
+
 
 		cout << "残り" << countdown << " 回です" << endl;
 
@@ -37,16 +46,16 @@ void kazuate()
 
 		countdown--;
 
-		if (num == randomeNum)
+		if (num == randomNum)
 		{
-			cout << "正解！　答えは " << randomeNum << " でした" << endl;
+			cout << "正解！　答えは " << randomNum << " でした" << endl;
 			key = false;
 		}
-		else if (num < randomeNum)
+		else if (num < randomNum)
 		{
 			cout << num << " より大きいです" << endl;
 		}
-		else if (num > randomeNum)
+		else if (num > randomNum)
 		{
 			cout << num << " より小さいです" << endl;
 		}

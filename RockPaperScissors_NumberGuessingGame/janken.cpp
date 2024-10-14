@@ -3,6 +3,8 @@
 #include <random>
 using namespace std;
 
+#define JANKEN_DEBUG_ON
+
 enum JankenState
 {
 	ROCK = 0,
@@ -36,6 +38,18 @@ void Janken()
 	bool key = true;
 	bool draw = true;
 
+	const char* DEBUG_MESSAGE[] = {
+			"グー",
+			"パー",
+			"チョキ",
+	};
+
+	const char* MESSAGE[] = {
+		"あいこ",
+		"勝ち",
+		"負け",
+	};
+
 	InitJankenRandomNum();
 
 	cout << "じゃんけんゲーム" << endl;
@@ -61,6 +75,13 @@ void Janken()
 
 			cout << "出す手を決めてね" << endl
 				<< "グーなら０・パーなら１・チョキなら２を押してね" << endl;
+
+#ifdef JANKEN_DEBUG_ON
+
+			cout << "親の手は " << DEBUG_MESSAGE[state[0]] << endl;
+
+#endif // JANKEN_DEBUG_ON
+
 
 			ch = _getch();
 
@@ -94,12 +115,6 @@ void Janken()
 		{
 			wol = LOSE;
 		}
-
-		const char* MESSAGE[] = {
-			"あいこ",
-			"勝ち",
-			"負け",
-		};
 
 		cout << MESSAGE[wol] << endl;
 
