@@ -136,6 +136,7 @@
     <ClInclude Include="janken.h" />
     <ClInclude Include="kazuate.h" />
     <ClInclude Include="LoopGame.h" />
+    <ClInclude Include="Random.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

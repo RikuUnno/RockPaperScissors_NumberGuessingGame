@@ -1,9 +1,9 @@
 #include <iostream>
-#include <random>
 #include <conio.h>
+#include <random>
 using namespace std;
 
-enum State
+enum JankenState
 {
 	ROCK = 0,
 	PAPER = 1,
@@ -17,12 +17,12 @@ enum WinOrLose
 	LOSE = 2
 };
 
-void Srand()
+void InitJankenRandomNum()
 {
 	srand((unsigned int)time(NULL));
 }
 
-int Random()
+int JankenRandomNum()
 {
 	return rand() % 3;
 }
@@ -30,73 +30,89 @@ int Random()
 void Janken()
 {
 	char ch;
-	State state[2];
+	JankenState state[2];
 	static WinOrLose wol;
 	int num = 0;
 	bool key = true;
+	bool draw = true;
+
+	InitJankenRandomNum();
 
 	cout << "じゃんけんゲーム" << endl;
 
-	num = Random();
-
-	if (num == 0) {
-		state[1] = ROCK;
-	}
-	else if (num == 1) {
-		state[1] = PAPER;
-	}
-	else {
-		state[1] = SCISSORS;
-	}
-
-	while (key)
+	while (draw)
 	{
-		key = false;
 
-		cout << "出す手を決めてね" << endl
-			<< "グーなら０・パーなら１・チョキなら２を押してね" << endl;
-
-		ch = _getch();
-
-		ch == '0' ? key = false :
-			ch == '1' ? key = false :
-			ch == '2' ? key = false :
-			key = true;
-
-		if (key)
+		while (key)
 		{
-			system("cls");
-			cout << "１・２・３以外の数字が押されました、もう一度入力してください。" << endl;
+			key = false;
+
+			num = JankenRandomNum();
+
+			if (num == 0) {
+				state[0] = ROCK;
+			}
+			else if (num == 1) {
+				state[0] = PAPER;
+			}
+			else {
+				state[0] = SCISSORS;
+			}
+
+			cout << "出す手を決めてね" << endl
+				<< "グーなら０・パーなら１・チョキなら２を押してね" << endl;
+
+			ch = _getch();
+
+			ch == '0' ? key = false :
+				ch == '1' ? key = false :
+				ch == '2' ? key = false :
+				key = true;
+
+			if (key)
+			{
+				system("cls");
+				cout << "１・２・３以外の数字が押されました、もう一度入力してください。" << endl;
+			}
+
+		}
+
+
+		ch == '0' ? state[1] = ROCK :
+			ch == '1' ? state[1] = PAPER :
+			state[1] = SCISSORS;
+
+		if ((state[1] == ROCK && state[0] == ROCK) || (state[1] == PAPER && state[0] == PAPER) || (state[1] == SCISSORS && state[0] == SCISSORS))
+		{
+			wol = DRAW;
+		}
+		else if ((state[1] == PAPER && state[0] == ROCK) || (state[1] == ROCK && state[0] == SCISSORS) || (state[1] == SCISSORS && state[0] == PAPER))
+		{
+			wol = WIN;
+		}
+		else if ((state[0] == PAPER && state[1] == ROCK) || (state[0] == ROCK && state[1] == SCISSORS) || (state[0] == SCISSORS && state[1] == PAPER))
+		{
+			wol = LOSE;
+		}
+
+		const char* MESSAGE[] = {
+			"あいこ",
+			"勝ち",
+			"負け",
+		};
+
+		cout << MESSAGE[wol] << endl;
+
+		if (wol == DRAW)
+		{
+			draw = true;
+			key = true;
+		}
+		else
+		{
+			draw = false;
 		}
 
 	}
-
-
-	ch == '0' ? state[2] = ROCK :
-	ch == '1' ? state[2] = PAPER :
-	state[2] = SCISSORS;
-	
-	if ((statePlayer == ROCK && stateAI == ROCK) || (statePlayer == PAPER && stateAI == PAPER) || (statePlayer == SCISSORS && stateAI == SCISSORS))
-	{
-		wol = DRAW;
-	}
-	else if ((statePlayer == PAPER && stateAI == ROCK) || (statePlayer == ROCK && stateAI == SCISSORS))
-	{
-		wol = WIN;
-	}
-	else if ((stateAI == PAPER && statePlayer == ROCK) || (stateAI == ROCK && statePlayer == SCISSORS))
-	{
-		wol = LOSE;
-	}
-
-	const char* MESSAGE[] = {
-		"あいこ",
-		"勝ち",
-		"負け",
-	};
-
-	cout << MESSAGE[wol] << endl;
-
-
 
 }
